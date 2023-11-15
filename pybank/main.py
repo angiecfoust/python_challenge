@@ -22,7 +22,7 @@ with open(csvpath) as csvfile:
 
 
     for row in csvreader:
-        total = (total + int(row[1])) #this isn't working, only shows 0
+        total = (total + int(row[1])) 
 
 #total number of months included in dataset
 print ("Financial Analysis")
