@@ -6,7 +6,13 @@ csvpath = os.path.join('Resources', 'budget_data.csv')
 #lists to store data
 date_yr = []
 profit_loss = []
+changes = []
 
+#set up printed results
+print ("Financial Analysis")
+print ("")
+print ("______________________________")
+print ("")
 
 with open(csvpath) as csvfile:
     csvreader=csv.reader(csvfile, delimiter=',')
@@ -16,6 +22,8 @@ with open(csvpath) as csvfile:
     #total number of months included in dataset
     months = len(csvfile.readlines()) #keep this out of the for loop
     
+    print (f"Total Months: {months}") 
+
     #net total amount of profit_losses over the entire period
     total = 0
     csvfile.seek(1)
@@ -24,43 +32,25 @@ with open(csvpath) as csvfile:
     for row in csvreader:
         total = (total + int(row[1])) 
 
-        
+    print (f"Total: ${total}")  
+
     #changes in profit/losses over the entire period and average of those changes
-    #find difference between current row and previous row, starting with row 3 (including header)
-        date_yr.append(row[0]) #this is working and creating a list of all the months
-        profit_loss = 0 #starting here it's not working- maybe need an if/then?
-        date_yr[1] = 0
-        profit_loss = ((date_yr[1]) - (date_yr[1]-1))
-        profit_loss.append(row[1])
+    #create list of months (date_yr) and list of pofit/loss
+    date_yr.append(row[0]) 
+    profit_loss.append(int(row[1]))
 
+    
+    for i in range (1, len(csvfile.readlines())):
         
-    #store those in a list called profit_loss
-    #find average of profit_loss list
-        #print(profit_loss)
-    #greatest increase in profits (date and amount) over entire period
-    #max of profit_loss list
+        change = profit_loss[i] - profit_loss[i-1]
+        changes.append(change)
 
+        average = (sum(changes)/len(changes))
+        max_inc = max(changes)
+        max_date = months[changes.index(max_inc) + 1]
+        max_dec = min(changes)
+        dec_date = months[changes.index(max_dec) +1]
 
-    #greatest decrease in profits (date and amount) over entire period
-    #min of profit_loss list
-
-print(date_yr)
-print(profit_loss)
-
-
-
-
-#print results
-print ("Financial Analysis")
-
-print ("______________________________")
-
-print ("Total Months: ", months) 
-
-print ("Total: ", "$",(total))
-
-print ("Average Change: $")
-
-print ("Greatest Increase in Profits: ") #include month and in () $amount
-
-print ("Greatest Decrease in Profits: ") #include month and in () $amount
+    print (f"Average Change: ${average:.2f}")
+    print (f"Greatest Increase in Profits: {max_inc} {max_date}") #include month and in () $amount
+    print (f"Greatest Decrease in Profits: {max_dec} {dec_date}") #include month and in () $amount
