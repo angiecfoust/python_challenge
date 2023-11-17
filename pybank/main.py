@@ -51,17 +51,18 @@ with open(csvpath) as csvfile:
             
     average = sum(changes)/(months - 1)
     max_inc = max(changes)
-    max_date = ([changes.index(max_inc)][0]) #this is not working index 0, row stuff in () from original csv
+    max_date = ([changes.index(max_inc)][0]) #this is not working, only includes an index number
     max_dec = min(changes)
-    dec_date = ([changes.index(max_dec)][0]) #this is not working
+    dec_date = ([changes.index(max_dec)][0]) #this is not working, only includes an index number
 
 print (f"Average Change: ${average:.2f}") #tip from Amanda (2f) put in readme
 print("")
-print (f"Greatest Increase in Profits: ${max_inc} {max_date}") #include month and in () $amount
+print (f"Greatest Increase in Profits: ${max_inc} {max_date}") 
 print("")
-print (f"Greatest Decrease in Profits: ${max_dec} {dec_date}") #include month and in () $amount
+print (f"Greatest Decrease in Profits: ${max_dec} {dec_date}") 
 print("")
 
+#write results to a text file
 file = open(os.path.join("analysis", "analysis.txt"), "w")
 file.write("\nFinancial Analysis")
 file.write("\n_________________________")
