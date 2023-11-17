@@ -22,7 +22,8 @@ with open(csvpath) as csvfile:
     #total number of months included in dataset
     months = len(csvfile.readlines()) #keep this out of the for loop
     
-    print (f"Total Months: {months}") 
+    print (f"Total Months: {months}")
+    print ("")
 
     #net total amount of profit_losses over the entire period
     total = 0
@@ -31,26 +32,48 @@ with open(csvpath) as csvfile:
 
     for row in csvreader:
         total = (total + int(row[1])) 
+        date_yr.append(row[0]) 
+        profit_loss.append(int(row[1]))
 
-    print (f"Total: ${total}")  
+    print (f"Total: ${total}")
+    print("")
 
     #changes in profit/losses over the entire period and average of those changes
     #create list of months (date_yr) and list of pofit/loss
-    date_yr.append(row[0]) 
-    profit_loss.append(int(row[1]))
-
     
-    for i in range (1, len(csvfile.readlines())):
-        
+
+    csvfile.seek(1)
+    next(csvreader)
+
+    for i in range (1, len(csvfile.readlines())): #this loop Amanda helped with
         change = profit_loss[i] - profit_loss[i-1]
         changes.append(change)
+            
+    average = sum(changes)/(months - 1)
+    max_inc = max(changes)
+    max_date = ([changes.index(max_inc)][0]) #this is not working index 0, row stuff in () from original csv
+    max_dec = min(changes)
+    dec_date = ([changes.index(max_dec)][0]) #this is not working
 
-        average = (sum(changes)/len(changes))
-        max_inc = max(changes)
-        max_date = months[changes.index(max_inc) + 1]
-        max_dec = min(changes)
-        dec_date = months[changes.index(max_dec) +1]
+print (f"Average Change: ${average:.2f}") #tip from Amanda (2f) put in readme
+print("")
+print (f"Greatest Increase in Profits: ${max_inc} {max_date}") #include month and in () $amount
+print("")
+print (f"Greatest Decrease in Profits: ${max_dec} {dec_date}") #include month and in () $amount
+print("")
 
-    print (f"Average Change: ${average:.2f}")
-    print (f"Greatest Increase in Profits: {max_inc} {max_date}") #include month and in () $amount
-    print (f"Greatest Decrease in Profits: {max_dec} {dec_date}") #include month and in () $amount
+file = open(os.path.join("analysis", "analysis.txt"), "w")
+file.write("\nFinancial Analysis")
+file.write("\n_________________________")
+file.write("\n ")
+file.write(f"\nTotal Months {months}")
+file.write("\n ")
+file.write(f"\nTotal: $ {total}")
+file.write("\n ")
+file.write(f"\nAverage Change: ${average:.2f}")
+file.write("\n ")
+file.write(f"\nGreatest Increase in Profits: ${max_inc} {max_date}")
+file.write("\n ")
+file.write(f"\nGreatest Decrease in Profits: ${max_dec} {dec_date}")
+file.write("\n ")
+file.write("\n_________________________")
