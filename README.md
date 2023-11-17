@@ -8,4 +8,6 @@ Outside Resources used
   Help on writing to a text file: https://www.pythontutorial.net/python-basics/python-write-text-file/
  
   Worked with Amanda Pigman- notes in pybank main.py
+
+  Help on doing a count of a list in python: https://favtutor.com/blogs/python-count-occurrences-in-list#:~:text=To%20count%20the%20occurrence%20of,the%20most%20frequently%20occurring%20element.
   
